@@ -55,6 +55,11 @@ public class PostOfficeService implements BasicServiceOptions<PostOfficeView, Po
 
     @Override
     public void deleteById(Long id) {
+        PostOffice currentPostOffice = postOfficeRepo.findById(id).orElse(null);
+        if(currentPostOffice == null)
+            return;
+
+        currentPostOffice.getPostages().forEach(postage -> postage.setOffice(null));
         postOfficeRepo.deleteById(id);
     }
 

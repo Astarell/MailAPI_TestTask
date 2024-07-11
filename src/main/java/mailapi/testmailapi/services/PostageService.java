@@ -43,6 +43,12 @@ public class PostageService implements BasicServiceOptions<PostageView, Postage>
 
     @Override
     public void add(Postage entity) {
+        PostOffice currentPostOffice = postOfficeRepo.findById(entity.getOffice().getId()).orElse(null);
+        if(currentPostOffice == null)
+            return;
+
+        entity.setOffice(currentPostOffice);
+
         postageRepo.save(entity);
     }
 
@@ -70,10 +76,10 @@ public class PostageService implements BasicServiceOptions<PostageView, Postage>
     public void deleteById(Long id) {
         if(postageRepo.existsById(id)){
             PackageTracking currentPackageTracking = packageTrackingRepo.findById(id).orElse(null);
-            if(currentPackageTracking == null)
-                return;
+            if(currentPackageTracking != null){
+                packageTrackingRepo.delete(currentPackageTracking);
+            }
 
-            packageTrackingRepo.delete(currentPackageTracking);
             postageRepo.deleteById(id);
         }
     }
