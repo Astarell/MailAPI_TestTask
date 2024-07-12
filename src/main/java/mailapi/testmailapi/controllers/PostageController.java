@@ -81,6 +81,7 @@ public class PostageController implements BasicControllerOptions<PostageView, Po
 
     @Operation(
             summary = "Updates the postage record",
+            description = "This method only allows to change the post office, other functions can be added if necessary",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
